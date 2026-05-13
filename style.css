@@ -1,0 +1,348 @@
+:root {
+    --primary-color: #003399;
+    --secondary-color: #4a5568;
+    --accent-color: #3182ce;
+    --bg-color: #f7fafc;
+    --card-bg: #ffffff;
+    --text-main: #2d3748;
+    --text-muted: #718096;
+    --border-color: #e2e8f0;
+    --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-main);
+    line-height: 1.6;
+}
+
+.app-container {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Header Styles */
+.app-header {
+    background: var(--card-bg);
+    padding: 1rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: var(--shadow);
+    z-index: 10;
+    position: sticky;
+    top: 0;
+}
+
+.logo-container {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.app-logo {
+    height: 40px;
+    width: 40px;
+}
+
+.app-header h1 {
+    font-family: 'Outfit', sans-serif;
+    font-size: 1.25rem;
+    color: var(--primary-color);
+    font-weight: 700;
+}
+
+.actions {
+    display: flex;
+    gap: 0.75rem;
+}
+
+/* Button Styles */
+.btn {
+    padding: 0.6rem 1.2rem;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border: none;
+    font-size: 0.9rem;
+    font-family: 'Inter', sans-serif;
+}
+
+.btn-primary {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+.btn-primary:hover {
+    background-color: #002266;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 51, 153, 0.3);
+}
+
+.btn-secondary {
+    background-color: white;
+    color: var(--primary-color);
+    border: 1px solid var(--primary-color);
+}
+
+.btn-secondary:hover {
+    background-color: #f0f7ff;
+    transform: translateY(-1px);
+}
+
+/* Main Content */
+.main-content {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    padding: 2rem;
+}
+
+.form-preview-container {
+    width: 100%;
+    max-width: 800px;
+    background: white;
+    box-shadow: var(--shadow-lg);
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+/* Logistics Form - Paper Mimicry */
+.logistics-form {
+    background: white;
+    padding: 40px 60px;
+    min-height: 1000px;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    color: #000; /* Standard black for printing */
+}
+
+.form-header {
+    margin-bottom: 30px;
+}
+
+.header-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    padding-bottom: 5px;
+}
+
+.company-slogan {
+    font-size: 11px;
+    font-weight: 800;
+    color: var(--primary-color);
+    letter-spacing: 1px;
+}
+
+.form-logo {
+    height: 60px;
+    width: 60px;
+}
+
+.header-line {
+    height: 4px;
+    background-color: var(--primary-color);
+    margin-bottom: 20px;
+}
+
+.date-field {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 4px;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.date-input-container {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.calendar-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+    padding: 2px;
+    transition: transform 0.2s;
+    user-select: none;
+}
+
+.calendar-btn:hover {
+    transform: scale(1.2);
+}
+
+.form-title {
+    text-align: center;
+    font-size: 18px;
+    font-weight: 800;
+    letter-spacing: 2px;
+    margin: 40px 0;
+    text-decoration: underline;
+    text-underline-offset: 4px;
+}
+
+.form-body {
+    flex: 1;
+    position: relative;
+    z-index: 1;
+}
+
+.background-watermark {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    opacity: 0.1;
+    z-index: -1;
+    width: 80%;
+    pointer-events: none;
+}
+
+.watermark-svg {
+    width: 100%;
+    height: auto;
+}
+
+.field-group {
+    margin-bottom: 20px;
+    display: flex;
+    align-items: flex-start;
+}
+
+.field-group label {
+    font-weight: 800;
+    font-size: 14px;
+    min-width: 100px;
+    padding-top: 5px;
+}
+
+.editable-field {
+    flex: 1;
+    border: none;
+    border-bottom: 1px solid transparent;
+    font-size: 14px;
+    font-family: inherit;
+    padding: 5px;
+    background: transparent;
+    transition: all 0.2s;
+    outline: none;
+}
+
+.editable-field:hover {
+    background: rgba(0, 51, 153, 0.03);
+    border-bottom: 1px dashed #ccc;
+}
+
+.editable-field:focus {
+    background: rgba(0, 51, 153, 0.05);
+    border-bottom: 1px solid var(--primary-color);
+}
+
+textarea.editable-field {
+    resize: none;
+    height: 80px;
+    line-height: 1.8;
+}
+
+.contacts-list {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.contact-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.bullet {
+    font-weight: bold;
+}
+
+.add-contact-btn {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    border: 1px dashed var(--primary-color);
+    background: transparent;
+    color: var(--primary-color);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 5px;
+    font-size: 16px;
+}
+
+.add-contact-btn:hover {
+    background: var(--primary-color);
+    color: white;
+}
+
+.signature-section {
+    margin-top: 60px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+}
+
+.signature-line {
+    flex: 1;
+    border-bottom: 1px solid #000;
+    height: 25px;
+    margin-left: 10px;
+}
+
+/* Footer Styles */
+.form-footer {
+    margin-top: 50px;
+    text-align: center;
+    border-top: 1px solid transparent; /* Just for spacing */
+}
+
+.footer-address {
+    font-size: 11px;
+    font-weight: 800;
+    color: var(--primary-color);
+    margin-bottom: 4px;
+}
+
+.footer-contact {
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--primary-color);
+}
+
+/* Responsive adjustments */
+@media (max-width: 600px) {
+    .logistics-form {
+        padding: 20px;
+    }
+    
+    .signature-section {
+        grid-template-columns: 1fr;
+    }
+    
+    .app-header {
+        flex-direction: column;
+        gap: 1rem;
+        padding: 1rem;
+    }
+}

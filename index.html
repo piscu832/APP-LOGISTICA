@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Información para Logística - Villalba</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</head>
+<body>
+    <div class="app-container">
+        <header class="app-header">
+            <div class="logo-container">
+                <svg class="app-logo" viewBox="0 0 1080 1080" xmlns="http://www.w3.org/2000/svg">
+                    <polygon fill="#193f89" points="540 106.67 154.29 775.24 268.57 775.24 540 304.76 868.57 874.29 97.49 874.32 97.14 874.29 40 973.33 1040 973.33 540 106.67"/>
+                    <g fill="#193f89">
+                        <path d="M176.4,786.69l15.13,52.79,14.91-52.79h22.31l-26.67,77.28h-21.12l-26.99-77.28h22.42Z"/>
+                        <path d="M234.63,863.97v-77.28h21.23v77.28h-21.23Z"/>
+                        <path d="M269.13,863.97v-77.28h21.23v58.78h35.05v18.5h-56.27Z"/>
+                        <path d="M332.81,863.97v-77.28h21.23v58.78h35.05v18.5h-56.27Z"/>
+                        <path d="M414.33,786.69h23.73l24.6,77.28h-21.55l-4-15.13h-21.83l-3.99,15.13h-21.66l24.71-77.28Zm19.05,48l-7.18-27.21-7.18,27.21h14.36Z"/>
+                        <path d="M469.08,863.97v-77.28h21.23v58.78h35.05v18.5h-56.27Z"/>
+                        <path d="M598.5,844.16c0,4.64-1.25,8.42-3.76,11.32-2.5,2.9-5.86,5.04-10.07,6.42-4.21,1.38-8.85,2.07-13.93,2.07h-37.99v-77.28h44.84c3.63,0,6.77,.96,9.42,2.88,2.65,1.92,4.68,4.41,6.1,7.46s2.12,6.2,2.12,9.47c0,3.56-.92,7-2.78,10.34-1.85,3.34-4.63,5.84-8.33,7.51,4.43,1.31,7.93,3.59,10.5,6.86,2.58,3.27,3.86,7.58,3.86,12.95Zm-44.52-39.4v11.86h14.48c.94,0,1.85-.16,2.72-.49,.87-.33,1.6-.93,2.18-1.8,.58-.87,.87-2.1,.87-3.7,0-1.45-.24-2.59-.71-3.43-.47-.83-1.09-1.45-1.85-1.85-.76-.4-1.62-.6-2.56-.6h-15.13Zm22.97,35.05c0-1.31-.24-2.45-.71-3.43-.47-.98-1.11-1.76-1.9-2.34-.8-.58-1.74-.87-2.83-.87h-17.52v12.95h16.76c1.16,0,2.21-.25,3.16-.76,.94-.51,1.69-1.23,2.23-2.18,.54-.94,.82-2.07,.82-3.37Z"/>
+                        <path d="M624.07,786.69h23.73l24.6,77.28h-21.55l-4-15.13h-21.83l-3.99,15.13h-21.66l24.71-77.28Zm19.05,48l-7.18-27.21-7.18,27.21h14.36Z"/>
+                    </g>
+                </svg>
+                <h1>Sistema de Logística</h1>
+            </div>
+            <div class="actions">
+                <button id="download-png" class="btn btn-secondary">Descargar PNG</button>
+                <button id="download-pdf" class="btn btn-primary">Descargar PDF</button>
+            </div>
+        </header>
+
+        <main class="main-content">
+            <div class="form-preview-container">
+                <div id="form-to-export" class="logistics-form">
+                    <div class="form-header">
+                        <div class="header-top">
+                            <span class="company-slogan">INSTRUMENTAL E IMPLANTES PARA CIRUGÍA ORTOPÉDICA</span>
+                            <svg class="form-logo" viewBox="0 0 1080 1080" xmlns="http://www.w3.org/2000/svg">
+                                <polygon fill="#193f89" points="540 106.67 154.29 775.24 268.57 775.24 540 304.76 868.57 874.29 97.49 874.32 97.14 874.29 40 973.33 1040 973.33 540 106.67"/>
+                                <g fill="#193f89">
+                                    <path d="M176.4,786.69l15.13,52.79,14.91-52.79h22.31l-26.67,77.28h-21.12l-26.99-77.28h22.42Z"/>
+                                    <path d="M234.63,863.97v-77.28h21.23v77.28h-21.23Z"/>
+                                    <path d="M269.13,863.97v-77.28h21.23v58.78h35.05v18.5h-56.27Z"/>
+                                    <path d="M332.81,863.97v-77.28h21.23v58.78h35.05v18.5h-56.27Z"/>
+                                    <path d="M414.33,786.69h23.73l24.6,77.28h-21.55l-4-15.13h-21.83l-3.99,15.13h-21.66l24.71-77.28Zm19.05,48l-7.18-27.21-7.18,27.21h14.36Z"/>
+                                    <path d="M469.08,863.97v-77.28h21.23v58.78h35.05v18.5h-56.27Z"/>
+                                    <path d="M598.5,844.16c0,4.64-1.25,8.42-3.76,11.32-2.5,2.9-5.86,5.04-10.07,6.42-4.21,1.38-8.85,2.07-13.93,2.07h-37.99v-77.28h44.84c3.63,0,6.77,.96,9.42,2.88,2.65,1.92,4.68,4.41,6.1,7.46s2.12,6.2,2.12,9.47c0,3.56-.92,7-2.78,10.34-1.85,3.34-4.63,5.84-8.33,7.51,4.43,1.31,7.93,3.59,10.5,6.86,2.58,3.27,3.86,7.58,3.86,12.95Zm-44.52-39.4v11.86h14.48c.94,0,1.85-.16,2.72-.49,.87-.33,1.6-.93,2.18-1.8,.58-.87,.87-2.1,.87-3.7,0-1.45-.24-2.59-.71-3.43-.47-.83-1.09-1.45-1.85-1.85-.76-.4-1.62-.6-2.56-.6h-15.13Zm22.97,35.05c0-1.31-.24-2.45-.71-3.43-.47-.98-1.11-1.76-1.9-2.34-.8-.58-1.74-.87-2.83-.87h-17.52v12.95h16.76c1.16,0,2.21-.25,3.16-.76,.94-.51,1.69-1.23,2.23-2.18,.54-.94,.82-2.07,.82-3.37Z"/>
+                                    <path d="M624.07,786.69h23.73l24.6,77.28h-21.55l-4-15.13h-21.83l-3.99,15.13h-21.66l24.71-77.28Zm19.05,48l-7.18-27.21-7.18,27.21h14.36Z"/>
+                                </g>
+                            </svg>
+                        </div>
+                        <div class="header-line"></div>
+                        <div class="date-field">
+                            <span class="location">Caseros,</span>
+                            <div class="date-input-container">
+                                <input type="text" id="date-input" value="04 de Mayo 2026" class="editable-field date-text">
+                                <button id="calendar-trigger" class="calendar-btn" title="Seleccionar fecha">📅</button>
+                                <input type="date" id="hidden-date-picker" style="display: none;">
+                            </div>
+                        </div>
+                    </div>
+
+                    <h2 class="form-title">INFORMACIÓN PARA LOGÍSTICA</h2>
+
+                    <div class="form-body">
+                        <div class="background-watermark">
+                            <svg class="watermark-svg" viewBox="0 0 1080 1080" xmlns="http://www.w3.org/2000/svg">
+                                <polygon fill="#193f89" points="540 106.67 154.29 775.24 268.57 775.24 540 304.76 868.57 874.29 97.49 874.32 97.14 874.29 40 973.33 1040 973.33 540 106.67"/>
+                                <g fill="#193f89">
+                                    <path d="M176.4,786.69l15.13,52.79,14.91-52.79h22.31l-26.67,77.28h-21.12l-26.99-77.28h22.42Z"/>
+                                    <path d="M234.63,863.97v-77.28h21.23v77.28h-21.23Z"/>
+                                    <path d="M269.13,863.97v-77.28h21.23v58.78h35.05v18.5h-56.27Z"/>
+                                    <path d="M332.81,863.97v-77.28h21.23v58.78h35.05v18.5h-56.27Z"/>
+                                    <path d="M414.33,786.69h23.73l24.6,77.28h-21.55l-4-15.13h-21.83l-3.99,15.13h-21.66l24.71-77.28Zm19.05,48l-7.18-27.21-7.18,27.21h14.36Z"/>
+                                    <path d="M469.08,863.97v-77.28h21.23v58.78h35.05v18.5h-56.27Z"/>
+                                    <path d="M598.5,844.16c0,4.64-1.25,8.42-3.76,11.32-2.5,2.9-5.86,5.04-10.07,6.42-4.21,1.38-8.85,2.07-13.93,2.07h-37.99v-77.28h44.84c3.63,0,6.77,.96,9.42,2.88,2.65,1.92,4.68,4.41,6.1,7.46s2.12,6.2,2.12,9.47c0,3.56-.92,7-2.78,10.34-1.85,3.34-4.63,5.84-8.33,7.51,4.43,1.31,7.93,3.59,10.5,6.86,2.58,3.27,3.86,7.58,3.86,12.95Zm-44.52-39.4v11.86h14.48c.94,0,1.85-.16,2.72-.49,.87-.33,1.6-.93,2.18-1.8,.58-.87,.87-2.1,.87-3.7,0-1.45-.24-2.59-.71-3.43-.47-.83-1.09-1.45-1.85-1.85-.76-.4-1.62-.6-2.56-.6h-15.13Zm22.97,35.05c0-1.31-.24-2.45-.71-3.43-.47-.98-1.11-1.76-1.9-2.34-.8-.58-1.74-.87-2.83-.87h-17.52v12.95h16.76c1.16,0,2.21-.25,3.16-.76,.94-.51,1.69-1.23,2.23-2.18,.54-.94,.82-2.07,.82-3.37Z"/>
+                                    <path d="M624.07,786.69h23.73l24.6,77.28h-21.55l-4-15.13h-21.83l-3.99,15.13h-21.66l24.71-77.28Zm19.05,48l-7.18-27.21-7.18,27.21h14.36Z"/>
+                                </g>
+                            </svg>
+                        </div>
+                        
+                        <div class="field-group">
+                            <label>Empresa:</label>
+                            <input type="text" id="empresa" value="Iscar" class="editable-field">
+                        </div>
+
+                        <div class="field-group">
+                            <label>Dirección:</label>
+                            <input type="text" id="direccion" value="MONTEAGUDO 222 - CAPITAL FEDERAL" class="editable-field">
+                        </div>
+
+                        <div class="field-group">
+                            <label>Horario:</label>
+                            <input type="text" id="horario" value="11:00 a 13:00 hs" class="editable-field">
+                        </div>
+
+                        <div class="field-group textarea-group">
+                            <label>Detalle:</label>
+                            <textarea id="detalle" class="editable-field">Un paquete de herramientas para mecanizado.</textarea>
+                        </div>
+
+                        <div class="field-group contacts-group">
+                            <label>Contactos:</label>
+                            <div class="contacts-list">
+                                <div class="contact-item">
+                                    <span class="bullet">-</span>
+                                    <input type="text" value="+54 9 11 4025-4977" class="editable-field">
+                                </div>
+                                <div class="contact-item">
+                                    <span class="bullet">-</span>
+                                    <input type="text" value="4912-2200" class="editable-field">
+                                </div>
+                                <div id="extra-contacts"></div>
+                                <button class="add-contact-btn" id="add-contact">+</button>
+                            </div>
+                        </div>
+
+                        <div class="signature-section">
+                            <div class="field-group">
+                                <label>FIRMA:</label>
+                                <div class="signature-line"></div>
+                            </div>
+                            <div class="field-group">
+                                <label>ACLARACIÓN:</label>
+                                <input type="text" class="editable-field">
+                            </div>
+                        </div>
+                    </div>
+
+                    <footer class="form-footer">
+                        <p class="footer-address">FRAY M. ESQUIU 4548/54 - CASEROS - PROV. DE BUENOS AIRES</p>
+                        <p class="footer-contact">TEL./FAX: 4750-5409 Rotativas - E-mail: administracion@implantesvillalba.com.ar</p>
+                    </footer>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="main.js"></script>
+</body>
+</html>

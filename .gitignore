@@ -1,0 +1,6 @@
+scratch/
+*.py
+logo_b64.txt
+logo_b64_clean.txt
+logo_final.txt
+logo_single_line.txt

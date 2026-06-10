@@ -4,11 +4,29 @@ document.addEventListener('DOMContentLoaded', () => {
     const downloadPngBtn = document.getElementById('download-png');
     const downloadPdfBtn = document.getElementById('download-pdf');
     const formElement = document.getElementById('form-to-export');
+    const saveFormBtn = document.getElementById('save-form');
+    const viewTemplatesBtn = document.getElementById('view-templates');
+    const sidebar = document.getElementById('templates-sidebar');
+    const overlay = document.getElementById('sidebar-overlay');
+    const closeSidebarBtn = document.getElementById('close-sidebar');
+    const templatesList = document.getElementById('templates-list');
+    const nroPedidoInput = document.getElementById('nro-pedido');
     
     // Calendar elements
     const calendarTrigger = document.getElementById('calendar-trigger');
     const hiddenDatePicker = document.getElementById('hidden-date-picker');
     const dateInput = document.getElementById('date-input');
+
+    // Default Date on load if it's the hardcoded value
+    if (dateInput.value === "04 de Mayo 2026") {
+        const today = new Date();
+        const options = { day: '2-digit', month: 'long', year: 'numeric' };
+        let formattedDate = today.toLocaleDateString('es-ES', options);
+        formattedDate = formattedDate.replace(/(\d+) de (\w+)/, (match, d, m) => {
+            return `${d} de ${m.charAt(0).toUpperCase() + m.slice(1)}`;
+        });
+        dateInput.value = formattedDate;
+    }
 
     // Handle calendar trigger
     calendarTrigger.addEventListener('click', () => {
@@ -30,36 +48,255 @@ document.addEventListener('DOMContentLoaded', () => {
             });
             
             dateInput.value = formattedDate;
+            saveFormData();
         }
     });
 
-    // Handle adding extra contacts
-    addContactBtn.addEventListener('click', () => {
+    // Helper to add a contact item
+    const addExtraContact = (value = '') => {
         const contactDiv = document.createElement('div');
         contactDiv.className = 'contact-item';
         contactDiv.innerHTML = `
             <span class="bullet">-</span>
-            <input type="text" placeholder="Nuevo contacto..." class="editable-field">
+            <input type="text" placeholder="Nuevo contacto..." class="editable-field" value="${value}">
             <button class="remove-contact" style="background:none; border:none; color:red; cursor:pointer; font-size:12px; margin-left:5px;">×</button>
         `;
         extraContactsContainer.appendChild(contactDiv);
 
         contactDiv.querySelector('.remove-contact').addEventListener('click', () => {
             contactDiv.remove();
+            saveFormData();
         });
+
+        contactDiv.querySelector('input').addEventListener('input', saveFormData);
+    };
+
+    // Handle adding extra contacts
+    addContactBtn.addEventListener('click', () => {
+        addExtraContact();
+        saveFormData();
     });
+
+    // Persistence with sessionStorage
+    const saveFormData = () => {
+        const data = {
+            fields: {},
+            extraContacts: []
+        };
+        
+        // Save fields with ID
+        formElement.querySelectorAll('input[id], textarea[id]').forEach(el => {
+            data.fields[el.id] = el.value;
+        });
+        
+        // Save extra contacts
+        extraContactsContainer.querySelectorAll('.contact-item input').forEach(input => {
+            data.extraContacts.push(input.value);
+        });
+        
+        sessionStorage.setItem('logisticsFormData', JSON.stringify(data));
+    };
+
+    const loadFormData = () => {
+        const saved = sessionStorage.getItem('logisticsFormData');
+        if (!saved) return;
+        
+        try {
+            const data = JSON.parse(saved);
+            
+            // Load fields with ID
+            Object.keys(data.fields).forEach(id => {
+                const el = document.getElementById(id);
+                if (el) el.value = data.fields[id];
+            });
+            
+            // Load extra contacts
+            if (data.extraContacts && data.extraContacts.length > 0) {
+                extraContactsContainer.innerHTML = '';
+                data.extraContacts.forEach(val => {
+                    addExtraContact(val);
+                });
+            }
+        } catch (e) {
+            console.error('Error loading form data', e);
+        }
+    };
+
+    // Listen for changes on all inputs and textareas
+    formElement.addEventListener('input', (e) => {
+        if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') {
+            saveFormData();
+        }
+    });
+
+    // Initial load
+    loadFormData();
+
+    // --- TEMPLATES / DATABASE LOGIC ---
+    
+    const openSidebar = () => {
+        renderTemplates();
+        sidebar.classList.add('open');
+        overlay.classList.add('active');
+    };
+    
+    const closeSidebar = () => {
+        sidebar.classList.remove('open');
+        overlay.classList.remove('active');
+    };
+
+    viewTemplatesBtn.addEventListener('click', openSidebar);
+    closeSidebarBtn.addEventListener('click', closeSidebar);
+    overlay.addEventListener('click', closeSidebar);
+
+    const getTemplates = () => {
+        const saved = localStorage.getItem('logisticsTemplates');
+        return saved ? JSON.parse(saved) : [];
+    };
+
+    const saveTemplateToDB = () => {
+        const templates = getTemplates();
+        
+        // Generate Order Number based on current date
+        const now = new Date();
+        const year = now.getFullYear();
+        const month = String(now.getMonth() + 1).padStart(2, '0');
+        const day = String(now.getDate()).padStart(2, '0');
+        const prefix = `${year}${month}${day}`;
+
+        let nextNum = 1;
+        templates.forEach(t => {
+            if (t.id && t.id.startsWith(prefix)) {
+                const parts = t.id.split('-');
+                if (parts.length === 2) {
+                    const num = parseInt(parts[1], 10);
+                    if (num >= nextNum) {
+                        nextNum = num + 1;
+                    }
+                }
+            }
+        });
+
+        // Always generate a new ID on save to keep history
+        const newId = `${prefix}-${String(nextNum).padStart(3, '0')}`;
+        nroPedidoInput.value = newId;
+
+        const dataToSave = {
+            id: newId,
+            date: dateInput.value,
+            empresa: document.getElementById('empresa').value || 'Sin Empresa',
+            fields: {},
+            extraContacts: []
+        };
+        
+        // Save fields
+        formElement.querySelectorAll('input[id], textarea[id]').forEach(el => {
+            dataToSave.fields[el.id] = el.value;
+        });
+        
+        // Save extra contacts
+        extraContactsContainer.querySelectorAll('.contact-item input').forEach(input => {
+            dataToSave.extraContacts.push(input.value);
+        });
+
+        templates.unshift(dataToSave); // Add to beginning
+        localStorage.setItem('logisticsTemplates', JSON.stringify(templates));
+        
+        alert(`Formulario guardado en plantillas con el Nº de Pedido: ${newId}`);
+        saveFormData(); // Update session draft
+    };
+
+    saveFormBtn.addEventListener('click', saveTemplateToDB);
+
+    const renderTemplates = () => {
+        const templates = getTemplates();
+        templatesList.innerHTML = '';
+        
+        if (templates.length === 0) {
+            templatesList.innerHTML = '<p style="text-align: center; color: var(--text-muted); margin-top: 2rem;">No hay plantillas guardadas.</p>';
+            return;
+        }
+
+        templates.forEach(t => {
+            const card = document.createElement('div');
+            card.className = 'template-card';
+            card.innerHTML = `
+                <div class="template-header">
+                    <span class="template-id">${t.id}</span>
+                    <span class="template-date">${t.date}</span>
+                </div>
+                <div class="template-company">${t.empresa}</div>
+                <div class="template-actions">
+                    <button class="btn btn-primary btn-sm btn-load" data-id="${t.id}">Usar Plantilla</button>
+                    <button class="btn btn-danger btn-sm btn-delete" data-id="${t.id}">Borrar</button>
+                </div>
+            `;
+            templatesList.appendChild(card);
+        });
+
+        templatesList.querySelectorAll('.btn-load').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const id = e.target.getAttribute('data-id');
+                loadTemplateFromDB(id);
+                closeSidebar();
+            });
+        });
+
+        templatesList.querySelectorAll('.btn-delete').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const id = e.target.getAttribute('data-id');
+                if (confirm('¿Estás seguro de que quieres borrar este formulario?')) {
+                    deleteTemplateFromDB(id);
+                    renderTemplates(); // Re-render
+                }
+            });
+        });
+    };
+
+    const loadTemplateFromDB = (id) => {
+        const templates = getTemplates();
+        const data = templates.find(t => t.id === id);
+        if (!data) return;
+
+        // Load fields
+        Object.keys(data.fields).forEach(fieldId => {
+            const el = document.getElementById(fieldId);
+            if (el) el.value = data.fields[fieldId];
+        });
+        
+        // Load extra contacts
+        extraContactsContainer.innerHTML = '';
+        if (data.extraContacts && data.extraContacts.length > 0) {
+            data.extraContacts.forEach(val => {
+                addExtraContact(val);
+            });
+        }
+        
+        // Reset ID for new saves
+        nroPedidoInput.value = '';
+        saveFormData();
+    };
+
+    const deleteTemplateFromDB = (id) => {
+        let templates = getTemplates();
+        templates = templates.filter(t => t.id !== id);
+        localStorage.setItem('logisticsTemplates', JSON.stringify(templates));
+    };
+
+    // --- END TEMPLATES LOGIC ---
 
     // Helper to prepare form for export
     const prepareForExport = () => {
         // Hide UI elements
-        addContactBtn.style.visibility = 'hidden';
-        calendarTrigger.style.visibility = 'hidden';
-        document.querySelectorAll('.remove-contact').forEach(btn => btn.style.visibility = 'hidden');
+        addContactBtn.style.display = 'none';
+        calendarTrigger.style.display = 'none';
+        document.querySelectorAll('.remove-contact').forEach(btn => btn.style.display = 'none');
         
         // Replace inputs/textareas with spans for perfect rendering
         const inputs = formElement.querySelectorAll('input, textarea');
         inputs.forEach(input => {
-            if (input === hiddenDatePicker) return; // Skip the hidden picker
+            // No saltar nada, ya que el input de fecha está fuera del contenedor
+
 
             const span = document.createElement('span');
             span.className = 'export-replacement ' + input.className;
@@ -96,9 +333,9 @@ document.addEventListener('DOMContentLoaded', () => {
     // Helper to restore form after export
     const restoreAfterExport = () => {
         // Show UI elements
-        addContactBtn.style.visibility = 'visible';
-        calendarTrigger.style.visibility = 'visible';
-        document.querySelectorAll('.remove-contact').forEach(btn => btn.style.visibility = 'visible');
+        addContactBtn.style.display = 'flex';
+        calendarTrigger.style.display = 'inline-block';
+        document.querySelectorAll('.remove-contact').forEach(btn => btn.style.display = 'inline-block');
         
         // Remove replacements and show inputs again
         const replacements = formElement.querySelectorAll('.export-replacement');

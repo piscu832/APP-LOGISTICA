@@ -31,6 +31,8 @@
                 <h1>Sistema de Logística</h1>
             </div>
             <div class="actions">
+                <button id="view-templates" class="btn btn-secondary">Ver Plantillas</button>
+                <button id="save-form" class="btn btn-secondary" title="Guardar en base de datos">Guardar Formulario</button>
                 <button id="download-png" class="btn btn-secondary">Descargar PNG</button>
                 <button id="download-pdf" class="btn btn-primary">Descargar PDF</button>
             </div>
@@ -61,8 +63,7 @@
                             <span class="location">Caseros,</span>
                             <div class="date-input-container">
                                 <input type="text" id="date-input" value="04 de Mayo 2026" class="editable-field date-text">
-                                <button id="calendar-trigger" class="calendar-btn" title="Seleccionar fecha">📅</button>
-                                <input type="date" id="hidden-date-picker" style="display: none;">
+                                <button id="calendar-trigger" class="calendar-btn" title="Seleccionar fecha" data-html2canvas-ignore="true">📅</button>
                             </div>
                         </div>
                     </div>
@@ -86,6 +87,11 @@
                             </svg>
                         </div>
                         
+                        <div class="field-group">
+                            <label>Nº Pedido:</label>
+                            <input type="text" id="nro-pedido" class="editable-field" readonly title="Se genera automáticamente al guardar" placeholder="Generado automáticamente al guardar...">
+                        </div>
+
                         <div class="field-group">
                             <label>Empresa:</label>
                             <input type="text" id="empresa" value="Iscar" class="editable-field">
@@ -111,11 +117,11 @@
                             <div class="contacts-list">
                                 <div class="contact-item">
                                     <span class="bullet">-</span>
-                                    <input type="text" value="+54 9 11 4025-4977" class="editable-field">
+                                    <input type="text" id="contacto-1" value="+54 9 11 4025-4977" class="editable-field">
                                 </div>
                                 <div class="contact-item">
                                     <span class="bullet">-</span>
-                                    <input type="text" value="4912-2200" class="editable-field">
+                                    <input type="text" id="contacto-2" value="4912-2200" class="editable-field">
                                 </div>
                                 <div id="extra-contacts"></div>
                                 <button class="add-contact-btn" id="add-contact">+</button>
@@ -129,7 +135,7 @@
                             </div>
                             <div class="field-group">
                                 <label>ACLARACIÓN:</label>
-                                <input type="text" class="editable-field">
+                                <input type="text" id="aclaracion" class="editable-field">
                             </div>
                         </div>
                     </div>
@@ -143,6 +149,21 @@
         </main>
     </div>
 
-    <script src="main.js"></script>
+    <!-- Sidebar de Plantillas -->
+    <div id="sidebar-overlay" class="sidebar-overlay"></div>
+    <div id="templates-sidebar" class="sidebar">
+        <div class="sidebar-header">
+            <h2>Plantillas Guardadas</h2>
+            <button id="close-sidebar" class="close-btn">&times;</button>
+        </div>
+        <div class="sidebar-content">
+            <div id="templates-list" class="templates-list">
+                <!-- Las plantillas se cargarán aquí dinámicamente -->
+            </div>
+        </div>
+    </div>
+
+    <input type="date" id="hidden-date-picker" style="display: none !important; position: absolute; top: -9999px; left: -9999px;" data-html2canvas-ignore="true">
+    <script src="main.js?v=1.1"></script>
 </body>
 </html>
